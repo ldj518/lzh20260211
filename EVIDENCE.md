@@ -1,6 +1,7 @@
 # T-20260211-100 审查证据包（学习计划版）
 
-对应版本：`HEAD`（请以仓库最新 commit 为准）
+审查基线 Commit（唯一锚点）：`14065141b4420e67b0670a106a6a00ee8550571a`
+Commit 链接（应返回 200）：`https://github.com/ldj518/lzh20260211/commit/14065141b4420e67b0670a106a6a00ee8550571a`
 仓库：`https://github.com/ldj518/lzh20260211` 分支：`main`
 
 ## 1) 新需求能力映射（页面/数据结构/结果）
@@ -70,6 +71,20 @@ grep -R --line-number --exclude-dir=.git '路\*昊' .
 ## 6) 可复审证据（仓库/部署/commit/构建记录）
 - 仓库：`https://github.com/ldj518/lzh20260211`
 - 部署：`https://lzh20260211.pages.dev`
-- 当前提交：`14065141b4420e67b0670a106a6a00ee8550571a`
-- 构建/校验日志：`evidence/verify.log`（包含 `npm ci ok` 与部署 `HTTP/2 200` 头）
+- 审查基线提交：`14065141b4420e67b0670a106a6a00ee8550571a`
+- 构建/校验日志：`evidence/verify.log`（包含基线 commit 一致性、commit URL=200、`npm ci ok`、部署 `HTTP/2 200`）
 - 页面可达性抽样：首页关键文案（计划周期/每日任务/拍照提交/家长端统计）已通过在线抓取验证。
+
+## 7) 端到端可视化证据索引（入口→操作→结果）
+1. 每日追踪（勾选任务）
+   - 操作前：`evidence/e2e/1-daily-before.png`
+   - 操作后：`evidence/e2e/1-daily-after.png`
+2. 拍照提交（选图+备注+保存）
+   - 操作前：`evidence/e2e/2-photo-before.png`
+   - 操作后：`evidence/e2e/2-photo-after.png`
+3. 家长查看（统计汇总变化）
+   - 操作前：`evidence/e2e/3-parent-before.png`
+   - 操作后：`evidence/e2e/3-parent-after.png`
+4. 计时统计（开始/暂停/继续/结束）
+   - 操作前：`evidence/e2e/4-timer-before.png`
+   - 操作后：`evidence/e2e/4-timer-after.png`

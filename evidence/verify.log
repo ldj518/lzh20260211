@@ -1,24 +1,44 @@
-# Verify Log
-UTC 2026-02-11 06:57:54
-commit 14065141b4420e67b0670a106a6a00ee8550571a
-branch main
-remote https://github.com/ldj518/lzh20260211.git
+# Verify Log (T-20260211-100)
+UTC 2026-02-11 07:01:17
+baseline_commit 14065141b4420e67b0670a106a6a00ee8550571a
+baseline_commit_url https://github.com/ldj518/lzh20260211/commit/14065141b4420e67b0670a106a6a00ee8550571a
 
-## npm ci
+## baseline commit url check
+HTTP/2 200 
+date: Wed, 11 Feb 2026 07:01:07 GMT
+content-type: text/html; charset=utf-8
+vary: X-PJAX, X-PJAX-Container, Turbo-Visit, Turbo-Frame, X-Requested-With, Sec-Fetch-Site,Accept-Encoding, Accept, X-Requested-With
+x-repository-download: git clone https://github.com/ldj518/lzh20260211.git
+
+## evidence file anchor line
+3:审查基线 Commit（唯一锚点）：`14065141b4420e67b0670a106a6a00ee8550571a`
+3:审查基线 Commit（唯一锚点）：`14065141b4420e67b0670a106a6a00ee8550571a`
+4:Commit 链接（应返回 200）：`https://github.com/ldj518/lzh20260211/commit/14065141b4420e67b0670a106a6a00ee8550571a`
+74:- 审查基线提交：`14065141b4420e67b0670a106a6a00ee8550571a`
+
+## build/install check
 npm ci ok
 
 ## deployment header check
 HTTP/2 200 
-date: Wed, 11 Feb 2026 06:57:55 GMT
+date: Wed, 11 Feb 2026 07:01:18 GMT
 content-type: text/html; charset=utf-8
 access-control-allow-origin: *
 cache-control: public, max-age=0, must-revalidate
 etag: "1accd35f06253261d503068e04945af1"
 referrer-policy: strict-origin-when-cross-origin
 x-content-type-options: nosniff
-report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=SbOM29hPUT5Ds7Rg3%2FfGU2m5C7EvyjcGVg7ngQVt7d0vvda9tjqNEXfdi98bVPAvbpn3YhnF3A4k%2FYesqSRNnRoEvyxvtYK%2FTephd29WxQTsCCizyA%3D%3D"}]}
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=RVAmk4aLNoahyyKzZt7mtiVpKhfet%2BL%2BJzK1fQLiOxpWAhS7Jcw9LAiRn1%2BDgki%2FB1GJ7euCykgKUUsB10qLxqNWe9ShIFsAILRg2pdMzpW6iv%2BC%2Fg%3D%3D"}]}
 nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
 server: cloudflare
-cf-ray: 9cc1f4713ecf073b-IAD
-alt-svc: h3=":443"; ma=86400
+cf-ray: 9cc1f965ab4415cd-IAD
 
+## screenshot artifacts
+evidence/e2e/1-daily-after.png
+evidence/e2e/1-daily-before.png
+evidence/e2e/2-photo-after.png
+evidence/e2e/2-photo-before.png
+evidence/e2e/3-parent-after.png
+evidence/e2e/3-parent-before.png
+evidence/e2e/4-timer-after.png
+evidence/e2e/4-timer-before.png
