@@ -1,224 +1,128 @@
-const subjectFilter = document.querySelector('#subjectFilter');
-const levelFilter = document.querySelector('#levelFilter');
-const timerSelect = document.querySelector('#timerSelect');
-const startBtn = document.querySelector('#startBtn');
-const reviewBtn = document.querySelector('#reviewBtn');
-const quizPanel = document.querySelector('#quizPanel');
-const resultPanel = document.querySelector('#resultPanel');
-const qIndex = document.querySelector('#qIndex');
-const qTag = document.querySelector('#qTag');
+const planDays = document.querySelector('#planDays');
+const dailyCap = document.querySelector('#dailyCap');
+const generateBtn = document.querySelector('#generateBtn');
+const resetBtn = document.querySelector('#resetBtn');
+const dayIndex = document.querySelector('#dayIndex');
+const dayPicker = document.querySelector('#dayPicker');
+const todayList = document.querySelector('#todayList');
+const startTimerBtn = document.querySelector('#startTimerBtn');
+const stopTimerBtn = document.querySelector('#stopTimerBtn');
 const timerLine = document.querySelector('#timerLine');
-const qStem = document.querySelector('#qStem');
-const qPassage = document.querySelector('#qPassage');
-const qOptions = document.querySelector('#qOptions');
-const qTextAnswer = document.querySelector('#qTextAnswer');
-const submitBtn = document.querySelector('#submitBtn');
-const nextBtn = document.querySelector('#nextBtn');
-const feedback = document.querySelector('#feedback');
-const scoreLine = document.querySelector('#scoreLine');
-const wrongList = document.querySelector('#wrongList');
-const restartBtn = document.querySelector('#restartBtn');
-const parentStats = document.querySelector('#parentStats');
+const photoInput = document.querySelector('#photoInput');
+const photoNote = document.querySelector('#photoNote');
+const savePhotoBtn = document.querySelector('#savePhotoBtn');
+const photoWall = document.querySelector('#photoWall');
+const summary = document.querySelector('#summary');
+const progressBySubject = document.querySelector('#progressBySubject');
 
+const K_PLAN = 'plan_v2';
+const K_PHOTO = 'photo_v2';
 let bank = [];
-let queue = [];
-let idx = 0;
-let score = 0;
-let wrong = [];
-let selected = null;
-let startAt = 0;
 let timerId = null;
-let limitMs = 0;
+let startAt = 0;
 
-const KEY = 'homework_stats_v1';
-const shuffle = (arr) => arr.map(v => ({ v, r: Math.random() })).sort((a,b)=>a.r-b.r).map(x=>x.v);
+const fmt = (ms) => {
+  const s = Math.floor(ms / 1000); const m = String(Math.floor(s/60)).padStart(2,'0'); const r = String(s%60).padStart(2,'0');
+  return `${m}:${r}`;
+};
 
-function formatTime(ms) {
-  const sec = Math.max(0, Math.floor(ms / 1000));
-  const m = String(Math.floor(sec / 60)).padStart(2, '0');
-  const s = String(sec % 60).padStart(2, '0');
-  return `${m}:${s}`;
+async function init(){
+  bank = await (await fetch('./data/homework.json')).json();
+  renderToday();
+  renderPhotos();
+  renderSummary();
 }
 
-function renderStats() {
-  const list = JSON.parse(localStorage.getItem(KEY) || '[]');
-  if (!list.length) {
-    parentStats.textContent = '暂无练习记录';
-    return;
-  }
-  const total = list.length;
-  const avg = Math.round(list.reduce((a,b)=>a+b.accuracy,0) / total);
-  const latest = list[list.length - 1];
-  parentStats.textContent = `累计 ${total} 次｜平均正确率 ${avg}%｜最近：${latest.subject} ${latest.score}/${latest.total}，用时 ${latest.duration}`;
-}
-
-function saveStats() {
-  const list = JSON.parse(localStorage.getItem(KEY) || '[]');
-  const total = queue.length || 1;
-  const subject = subjectFilter.value === 'all' ? '综合' : subjectFilter.value;
-  list.push({
-    date: new Date().toISOString(),
-    subject,
-    score,
-    total,
-    accuracy: Math.round(score * 100 / total),
-    duration: formatTime(Date.now() - startAt),
-    wrong: wrong.length,
-  });
-  localStorage.setItem(KEY, JSON.stringify(list.slice(-100)));
-  renderStats();
-}
-
-async function init() {
-  const res = await fetch('./data/homework.json');
-  bank = await res.json();
-  const subjects = ['all', ...new Set(bank.map(q => q.subject))];
-  subjectFilter.innerHTML = subjects.map(s => `<option value="${s}">${s === 'all' ? '全部' : s}</option>`).join('');
-  renderStats();
-}
-
-function buildQueue(onlyWrong = false) {
-  const s = subjectFilter.value;
-  const lv = levelFilter.value;
-  let base = onlyWrong ? wrong.map(w => w.raw) : bank;
-  if (s !== 'all') base = base.filter(q => q.subject === s);
-  if (lv !== 'all') base = base.filter(q => q.level === lv);
-  queue = shuffle(base);
-}
-
-function showQuestion() {
-  if (!queue.length || idx >= queue.length) return finish();
-  const q = queue[idx];
-  selected = null;
-  feedback.textContent = '';
-  feedback.className = 'feedback';
-  qIndex.textContent = `第 ${idx + 1} / ${queue.length} 题`;
-  qTag.textContent = `${q.subject} · ${q.type}`;
-  qStem.textContent = q.stem;
-
-  if (q.passage) {
-    qPassage.hidden = false;
-    qPassage.textContent = q.passage;
-  } else qPassage.hidden = true;
-
-  qOptions.innerHTML = '';
-  qTextAnswer.hidden = true;
-  qTextAnswer.value = '';
-  submitBtn.hidden = false;
-  nextBtn.hidden = true;
-
-  if (q.type === 'choice') {
-    q.options.forEach((opt, i) => {
-      const el = document.createElement('button');
-      el.className = 'opt';
-      el.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
-      el.onclick = () => {
-        [...qOptions.children].forEach(x => x.classList.remove('active'));
-        el.classList.add('active');
-        selected = i;
-      };
-      qOptions.appendChild(el);
-    });
-  } else {
-    qTextAnswer.hidden = false;
-    qTextAnswer.placeholder = q.type === 'fill' ? '填空答案（可多个，用分号分隔）' : '请输入你的解题过程/答案';
-  }
-}
-
-function suggestScore(input, q) {
-  const hit = (q.accept || []).filter(k => input.includes(k)).length;
-  if (!input || input.length < 4) return 20;
-  if (!q.accept?.length) return Math.min(95, 60 + Math.min(35, Math.floor(input.length / 8) * 5));
-  return Math.min(100, 40 + hit * 20 + Math.min(20, Math.floor(input.length / 20) * 5));
-}
-
-function checkAnswer() {
-  const q = queue[idx];
-  let ok = false;
-
-  if (q.type === 'choice') {
-    if (selected === null) return alert('请先选择一个选项');
-    ok = selected === q.answer;
-    [...qOptions.children].forEach((el, i) => {
-      if (i === q.answer) el.classList.add('correct');
-      if (i === selected && i !== q.answer) el.classList.add('wrong');
-      el.disabled = true;
-    });
-  } else {
-    const input = qTextAnswer.value.trim();
-    if (!input) return alert('请输入答案');
-    ok = (q.accept || []).some(ans => input.replace(/\s/g, '').includes(ans.replace(/\s/g, '')));
-    if (q.type === 'short') {
-      const s = suggestScore(input, q);
-      feedback.textContent = `📝 建议评分：${s}/100（家长参考）`;
+function buildPlan(days, cap){
+  const bySubject = bank.reduce((m,q)=>((m[q.subject]??=[]).push(q),m),{});
+  const subjects = Object.keys(bySubject);
+  const plan = Array.from({length: days}, (_,i)=>({day:i+1,tasks:[]}));
+  let p = 0;
+  for (const d of plan){
+    for(let j=0;j<cap;j++){
+      const s = subjects[p % subjects.length];
+      const arr = bySubject[s];
+      const item = arr[(d.day + j) % arr.length];
+      d.tasks.push({
+        id: `${d.day}-${j}-${item.id}`,
+        subject: s,
+        title: item.stem.slice(0,26),
+        done: false,
+        minutes: 0
+      });
+      p++;
     }
   }
-
-  if (ok) {
-    score++;
-    feedback.className = 'feedback ok';
-    feedback.textContent += `${feedback.textContent ? '｜' : ''}✅ 正确。${q.explain ? ' 解析：' + q.explain : ''}`;
-  } else {
-    feedback.className = 'feedback bad';
-    feedback.textContent += `${feedback.textContent ? '｜' : ''}❌ 不正确。参考答案：${q.answerText || ''}${q.explain ? '；解析：' + q.explain : ''}`;
-    wrong.push({ id: q.id, stem: q.stem, answerText: q.answerText, raw: q });
-  }
-
-  submitBtn.hidden = true;
-  nextBtn.hidden = false;
+  localStorage.setItem(K_PLAN, JSON.stringify({days, cap, plan, updatedAt: new Date().toISOString()}));
 }
 
-function finish(fromTimeout = false) {
-  clearInterval(timerId);
-  quizPanel.hidden = true;
-  resultPanel.hidden = false;
-  scoreLine.textContent = `${fromTimeout ? '⏰ 时间到。' : ''}本轮得分：${score} / ${queue.length}（正确率 ${queue.length ? Math.round(score*100/queue.length) : 0}%），用时 ${formatTime(Date.now()-startAt)}`;
-  wrongList.innerHTML = wrong.length
-    ? wrong.map((w, i) => `<li>${i + 1}. ${w.stem}<br/>答案：${w.answerText}</li>`).join('')
-    : '<li>本轮全对，表现非常好！</li>';
-  saveStats();
+function getState(){ return JSON.parse(localStorage.getItem(K_PLAN)||'null'); }
+
+function renderToday(){
+  const s = getState();
+  if(!s){ todayList.innerHTML = '<li>未生成计划，请先点击“生成学习计划”。</li>'; return; }
+  const d = Math.min(Math.max(1, Number(dayPicker.value||1)), s.days);
+  dayPicker.max = s.days; dayPicker.value = d; dayIndex.textContent = d;
+  const current = s.plan[d-1];
+  todayList.innerHTML = current.tasks.map(t=>`<li><label><input type='checkbox' data-id='${t.id}' ${t.done?'checked':''}/> <span class='${t.done?'done':''}'>[${t.subject}] ${t.title}（用时 ${t.minutes} 分）</span></label></li>`).join('');
+  [...todayList.querySelectorAll('input[type=checkbox]')].forEach(el=>el.onchange=()=>{
+    const id = el.dataset.id;
+    for(const day of s.plan){ for(const t of day.tasks){ if(t.id===id){ t.done = el.checked; } } }
+    localStorage.setItem(K_PLAN, JSON.stringify(s));
+    renderToday(); renderSummary();
+  });
 }
 
-function startTimer() {
-  clearInterval(timerId);
-  limitMs = Number(timerSelect.value) * 60 * 1000;
-  if (!limitMs) {
-    timerLine.textContent = '不限时';
-    return;
-  }
-  timerId = setInterval(() => {
-    const left = limitMs - (Date.now() - startAt);
-    timerLine.textContent = `剩余 ${formatTime(left)}`;
-    if (left <= 0) finish(true);
-  }, 500);
+function renderPhotos(){
+  const list = JSON.parse(localStorage.getItem(K_PHOTO)||'[]');
+  photoWall.innerHTML = list.length ? list.slice().reverse().map(x=>`<div class='photo-card'><img src='${x.img}'/><div>Day ${x.day} · ${x.time}</div><small>${x.note||''}</small></div>`).join('') : '<small>暂无拍照打卡</small>';
 }
 
-startBtn.onclick = () => {
-  wrong = [];
-  idx = 0;
-  score = 0;
+function renderSummary(){
+  const s = getState();
+  if(!s){ summary.textContent = '暂无数据'; progressBySubject.innerHTML=''; return; }
+  const all = s.plan.flatMap(d=>d.tasks);
+  const done = all.filter(x=>x.done).length;
+  summary.textContent = `总任务 ${all.length}，已完成 ${done}，完成率 ${Math.round(done*100/(all.length||1))}%`;
+  const m = {};
+  for(const t of all){ m[t.subject] ??= {total:0, done:0}; m[t.subject].total++; if(t.done) m[t.subject].done++; }
+  progressBySubject.innerHTML = Object.entries(m).map(([k,v])=>`<li>${k}：${v.done}/${v.total}</li>`).join('');
+}
+
+generateBtn.onclick = ()=>{ buildPlan(Number(planDays.value), Number(dailyCap.value)); dayPicker.value=1; renderToday(); renderSummary(); };
+resetBtn.onclick = ()=>{ localStorage.removeItem(K_PLAN); localStorage.removeItem(K_PHOTO); renderToday(); renderPhotos(); renderSummary(); timerLine.textContent='未开始'; };
+dayPicker.onchange = renderToday;
+
+startTimerBtn.onclick = ()=>{
+  const s = getState(); if(!s) return alert('请先生成计划');
   startAt = Date.now();
-  resultPanel.hidden = true;
-  quizPanel.hidden = false;
-  buildQueue(false);
-  startTimer();
-  showQuestion();
+  clearInterval(timerId);
+  timerId = setInterval(()=>{ timerLine.textContent = `计时中 ${fmt(Date.now()-startAt)}`; }, 500);
 };
 
-reviewBtn.onclick = () => {
-  if (!wrong.length) return alert('当前没有错题可复习，请先完成一轮练习。');
-  idx = 0;
-  score = 0;
-  startAt = Date.now();
-  resultPanel.hidden = true;
-  quizPanel.hidden = false;
-  buildQueue(true);
-  startTimer();
-  showQuestion();
+stopTimerBtn.onclick = ()=>{
+  const s = getState(); if(!s || !startAt) return;
+  clearInterval(timerId);
+  const mins = Math.max(1, Math.round((Date.now()-startAt)/60000));
+  const d = Number(dayPicker.value||1);
+  if(s.plan[d-1]?.tasks?.length){ s.plan[d-1].tasks[0].minutes += mins; }
+  localStorage.setItem(K_PLAN, JSON.stringify(s));
+  timerLine.textContent = `本次 ${mins} 分钟（已记入Day ${d}首任务）`;
+  startAt = 0;
+  renderToday(); renderSummary();
 };
 
-submitBtn.onclick = checkAnswer;
-nextBtn.onclick = () => { idx++; showQuestion(); };
-restartBtn.onclick = () => startBtn.click();
+savePhotoBtn.onclick = ()=>{
+  const f = photoInput.files?.[0];
+  if(!f) return alert('请先拍照/选择图片');
+  const r = new FileReader();
+  r.onload = ()=>{
+    const list = JSON.parse(localStorage.getItem(K_PHOTO)||'[]');
+    list.push({ day:Number(dayPicker.value||1), img:r.result, note:photoNote.value.trim(), time:new Date().toLocaleString('zh-CN') });
+    localStorage.setItem(K_PHOTO, JSON.stringify(list.slice(-60)));
+    photoInput.value=''; photoNote.value=''; renderPhotos();
+  };
+  r.readAsDataURL(f);
+};
 
 init();
