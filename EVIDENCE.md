@@ -75,16 +75,20 @@ grep -R --line-number --exclude-dir=.git '路\*昊' .
 - 构建/校验日志：`evidence/verify.log`（包含基线 commit 一致性、commit URL=200、`npm ci ok`、部署 `HTTP/2 200`）
 - 页面可达性抽样：首页关键文案（计划周期/每日任务/拍照提交/家长端统计）已通过在线抓取验证。
 
-## 7) 端到端可视化证据索引（入口→操作→结果）
+## 7) E2E证据索引（能力→before/after→结果）
 1. 每日追踪（勾选任务）
-   - 操作前：`evidence/e2e/1-daily-before.png`
-   - 操作后：`evidence/e2e/1-daily-after.png`
+   - before：`evidence/e2e/1-daily-before.png`
+   - after：`evidence/e2e/1-daily-after.png`
+   - 结果：勾选后任务状态变为已完成，家长端完成率同步上升。
 2. 拍照提交（选图+备注+保存）
-   - 操作前：`evidence/e2e/2-photo-before.png`
-   - 操作后：`evidence/e2e/2-photo-after.png`
+   - before：`evidence/e2e/2-photo-before.png`
+   - after：`evidence/e2e/2-photo-after.png`
+   - 结果：保存后照片墙新增打卡记录（含时间与备注）。
 3. 家长查看（统计汇总变化）
-   - 操作前：`evidence/e2e/3-parent-before.png`
-   - 操作后：`evidence/e2e/3-parent-after.png`
+   - before：`evidence/e2e/3-parent-before.png`
+   - after：`evidence/e2e/3-parent-after.png`
+   - 结果：家长端总任务/完成数/完成率可见且随勾选更新。
 4. 计时统计（开始/暂停/继续/结束）
-   - 操作前：`evidence/e2e/4-timer-before.png`
-   - 操作后：`evidence/e2e/4-timer-after.png`
+   - before：`evidence/e2e/4-timer-before.png`
+   - after：`evidence/e2e/4-timer-after.png`
+   - 结果：结束后科目累计时长入库并显示在家长端统计。

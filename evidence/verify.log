@@ -1,11 +1,20 @@
 # Verify Log (T-20260211-100)
-UTC 2026-02-11 07:01:17
+UTC 2026-02-11 07:02:49
 baseline_commit 14065141b4420e67b0670a106a6a00ee8550571a
 baseline_commit_url https://github.com/ldj518/lzh20260211/commit/14065141b4420e67b0670a106a6a00ee8550571a
+rectify_commit 5d85eaeeddc9a4a92f7b24403146e62971f4cedf
+rectify_commit_url https://github.com/ldj518/lzh20260211/commit/5d85eaeeddc9a4a92f7b24403146e62971f4cedf
 
 ## baseline commit url check
 HTTP/2 200 
-date: Wed, 11 Feb 2026 07:01:07 GMT
+date: Wed, 11 Feb 2026 07:02:50 GMT
+content-type: text/html; charset=utf-8
+vary: X-PJAX, X-PJAX-Container, Turbo-Visit, Turbo-Frame, X-Requested-With, Sec-Fetch-Site,Accept-Encoding, Accept, X-Requested-With
+x-repository-download: git clone https://github.com/ldj518/lzh20260211.git
+
+## rectify commit url check
+HTTP/2 200 
+date: Wed, 11 Feb 2026 07:02:50 GMT
 content-type: text/html; charset=utf-8
 vary: X-PJAX, X-PJAX-Container, Turbo-Visit, Turbo-Frame, X-Requested-With, Sec-Fetch-Site,Accept-Encoding, Accept, X-Requested-With
 x-repository-download: git clone https://github.com/ldj518/lzh20260211.git
@@ -16,22 +25,25 @@ x-repository-download: git clone https://github.com/ldj518/lzh20260211.git
 4:Commit 链接（应返回 200）：`https://github.com/ldj518/lzh20260211/commit/14065141b4420e67b0670a106a6a00ee8550571a`
 74:- 审查基线提交：`14065141b4420e67b0670a106a6a00ee8550571a`
 
+## no HEAD keyword check
+HEAD_NOT_FOUND
+
 ## build/install check
 npm ci ok
 
 ## deployment header check
 HTTP/2 200 
-date: Wed, 11 Feb 2026 07:01:18 GMT
+date: Wed, 11 Feb 2026 07:02:51 GMT
 content-type: text/html; charset=utf-8
 access-control-allow-origin: *
 cache-control: public, max-age=0, must-revalidate
 etag: "1accd35f06253261d503068e04945af1"
 referrer-policy: strict-origin-when-cross-origin
 x-content-type-options: nosniff
-report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=RVAmk4aLNoahyyKzZt7mtiVpKhfet%2BL%2BJzK1fQLiOxpWAhS7Jcw9LAiRn1%2BDgki%2FB1GJ7euCykgKUUsB10qLxqNWe9ShIFsAILRg2pdMzpW6iv%2BC%2Fg%3D%3D"}]}
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=hzSywPS2P1IhAQPx1x%2FKpxqOuhT3c0krcqboTpCnhCUMb1ZHtHdsMUM8jy6Tnnb8nYSc4iLuHTLdtKadNNg1%2B1I9SOjznba2Yt%2BvuBsEjox7OpJONQ%3D%3D"}]}
 nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
 server: cloudflare
-cf-ray: 9cc1f965ab4415cd-IAD
+cf-ray: 9cc1fba91fbbd6df-IAD
 
 ## screenshot artifacts
 evidence/e2e/1-daily-after.png
