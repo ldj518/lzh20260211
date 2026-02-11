@@ -1,0 +1,24 @@
+# Verify Log
+UTC 2026-02-11 06:57:54
+commit 14065141b4420e67b0670a106a6a00ee8550571a
+branch main
+remote https://github.com/ldj518/lzh20260211.git
+
+## npm ci
+npm ci ok
+
+## deployment header check
+HTTP/2 200 
+date: Wed, 11 Feb 2026 06:57:55 GMT
+content-type: text/html; charset=utf-8
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+etag: "1accd35f06253261d503068e04945af1"
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=SbOM29hPUT5Ds7Rg3%2FfGU2m5C7EvyjcGVg7ngQVt7d0vvda9tjqNEXfdi98bVPAvbpn3YhnF3A4k%2FYesqSRNnRoEvyxvtYK%2FTephd29WxQTsCCizyA%3D%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: 9cc1f4713ecf073b-IAD
+alt-svc: h3=":443"; ma=86400
+

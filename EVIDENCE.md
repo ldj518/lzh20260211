@@ -66,3 +66,10 @@
 grep -R --line-number --exclude-dir=.git '路则昊' .
 grep -R --line-number --exclude-dir=.git '路\*昊' .
 ```
+
+## 6) 可复审证据（仓库/部署/commit/构建记录）
+- 仓库：`https://github.com/ldj518/lzh20260211`
+- 部署：`https://lzh20260211.pages.dev`
+- 当前提交：`14065141b4420e67b0670a106a6a00ee8550571a`
+- 构建/校验日志：`evidence/verify.log`（包含 `npm ci ok` 与部署 `HTTP/2 200` 头）
+- 页面可达性抽样：首页关键文案（计划周期/每日任务/拍照提交/家长端统计）已通过在线抓取验证。
