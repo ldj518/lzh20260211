@@ -1,1 +1,87 @@
-通道验证ok
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>寒假作业练习系统</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>路则昊同学 · 寒假作业练习系统</h1>
+    <p id="meta">七中初一1班（五四制）｜按学科练习 → 自动判分 → 结果与家长统计</p>
+  </header>
+
+  <main class="container">
+    <section class="panel controls">
+      <label>
+        学科
+        <select id="subjectFilter"></select>
+      </label>
+      <label>
+        难度
+        <select id="levelFilter">
+          <option value="all">全部</option>
+          <option value="easy">基础</option>
+          <option value="mid">提升</option>
+          <option value="hard">挑战</option>
+        </select>
+      </label>
+      <label>
+        练习时长
+        <select id="timerSelect">
+          <option value="0">不限时</option>
+          <option value="10">10 分钟</option>
+          <option value="20">20 分钟</option>
+          <option value="30">30 分钟</option>
+        </select>
+      </label>
+      <button id="startBtn">开始练习</button>
+      <button id="reviewBtn" class="ghost">仅看错题</button>
+    </section>
+
+    <section class="panel stats">
+      <h2>家长端统计（本机）</h2>
+      <p id="parentStats">暂无练习记录</p>
+    </section>
+
+    <section class="panel quiz" id="quizPanel" hidden>
+      <div class="quiz-head">
+        <strong id="qIndex">第 1 题</strong>
+        <span id="qTag"></span>
+        <span id="timerLine"></span>
+      </div>
+      <h2 id="qStem"></h2>
+      <div id="qPassage" class="passage" hidden></div>
+      <div id="qOptions" class="options"></div>
+      <textarea id="qTextAnswer" rows="4" placeholder="请输入答案（填空/简答）" hidden></textarea>
+      <div class="actions">
+        <button id="submitBtn">提交答案</button>
+        <button id="nextBtn" class="ghost" hidden>下一题</button>
+      </div>
+      <div id="feedback" class="feedback"></div>
+    </section>
+
+    <section class="panel result" id="resultPanel" hidden>
+      <h2>练习结果</h2>
+      <p id="scoreLine"></p>
+      <ul id="wrongList"></ul>
+      <button id="restartBtn">再练一轮</button>
+    </section>
+
+    <section class="panel parent-note">
+      <h2>家长可视化说明</h2>
+      <ul>
+        <li>自动记录每轮：学科、题量、正确率、用时、错题数。</li>
+        <li>开放题提供“建议评分”用于家长快速复核（非最终教师评分）。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <small>数据来源：您提供的数学/英语/地理寒假作业资料（已结构化）</small>
+  </footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+[
+  {"id":"m1","subject":"数学","level":"easy","type":"choice","stem":"下列叙述中，正确的是？","options":["方程是含有未知数的式子","方程是含有未知数的等式","只有含有x,y的等式才叫方程","带等号和字母的式子叫方程"],"answer":1,"answerText":"B","explain":"方程必须同时满足：含未知数 + 等式。"},
+  {"id":"m2","subject":"数学","level":"easy","type":"choice","stem":"根据“x比y的2倍少9”可列方程：","options":["2(x-y)=9","x=2y-9","x-2y=9","x-y=18"],"answer":1,"answerText":"B"},
+  {"id":"m3","subject":"数学","level":"mid","type":"choice","stem":"x= ? 是方程 3x-6=2x+4 的解","options":["-2","10","-10","2"],"answer":1,"answerText":"B","explain":"移项得 x=10。"},
+  {"id":"m4","subject":"数学","level":"mid","type":"choice","stem":"居民用水分段收费：20m³内3元，超出部分5元；某月水费84元，设用水x m³，正确方程是：","options":["3x+5=84","3×20+5x=84","3×20+5(x-20)=84","3x+5(x-20)=84"],"answer":2,"answerText":"C"},
+  {"id":"m5","subject":"数学","level":"easy","type":"choice","stem":"等式变形中不正确的是：","options":["若a=b，则a-2=b-2","若a=b，则-2a=-2b","若a=b，则a/3=b/3","若am=bm，则a=b"],"answer":3,"answerText":"D","explain":"m可能为0，不一定能约去。"},
+  {"id":"m6","subject":"数学","level":"easy","type":"choice","stem":"若a=b，下列不一定成立的是：","options":["a+m=b+m","(m-1)a=(m-1)b","a/2=b/2","m-a=m-b"],"answer":2,"answerText":"C","explain":"当分母为0时无意义（原题意在有分式条件下不一定成立）。"},
+  {"id":"m7","subject":"数学","level":"mid","type":"fill","stem":"由等式 6x=x+2 可得 6x-___=2，这是根据等式性质：两边同时减去___。","accept":["x","x"],"answerText":"x；x"},
+  {"id":"m8","subject":"数学","level":"easy","type":"fill","stem":"如果 a=b+4，那么 a-b=____。","accept":["4"],"answerText":"4"},
+  {"id":"m9","subject":"数学","level":"mid","type":"fill","stem":"方程 3x-10=2x+15 的解是 x=____。","accept":["25"],"answerText":"25"},
+
+  {"id":"s1","subject":"数学综合","level":"easy","type":"choice","stem":"下列各式中，是代数式的是：","options":["3x+y","n+2>3","x=1/2","5.89≈5.9"],"answer":0,"answerText":"A"},
+  {"id":"s2","subject":"数学综合","level":"easy","type":"choice","stem":"以下数据属于定性数据的是：","options":["室外气温","外套颜色","考试分数","白菜质量"],"answer":1,"answerText":"B"},
+  {"id":"s3","subject":"数学综合","level":"easy","type":"choice","stem":"玫瑰4元/枝，兰花8元/枝，买a枝玫瑰b枝兰花共花：","options":["12a","12b","4a+8b","12(a+b)"],"answer":2,"answerText":"C"},
+  {"id":"s4","subject":"数学综合","level":"mid","type":"choice","stem":"某批玫瑰花种子发芽率调查，适合用：","options":["全面调查","抽样调查","访谈法","无法调查"],"answer":1,"answerText":"B"},
+  {"id":"s5","subject":"数学综合","level":"mid","type":"choice","stem":"若图形圆点个数为3,7,11,15,...，第100幅图圆点个数是：","options":["399","420","450","499"],"answer":0,"answerText":"A","explain":"等差数列，an=3+(n-1)×4=4n-1。"},
+
+  {"id":"e1","subject":"英语","level":"easy","type":"choice","stem":"Jane 的什么东西在床上？","passage":"A small yellow bed is in her room. On the bed are her white hat and her orange T-shirt.","options":["white skirt","orange T-shirt","green skirt","blue hat"],"answer":1,"answerText":"B"},
+  {"id":"e2","subject":"英语","level":"mid","type":"choice","stem":"第三张照片中出现了哪些物品？","passage":"Mary has a long sofa beside her bed... Under the chair is her schoolbag.","options":["①②③","③④⑤","①③④","②④⑤"],"answer":3,"answerText":"D"},
+  {"id":"e3","subject":"英语","level":"easy","type":"choice","stem":"文中划线 it 指代什么？","passage":"Her clever dog is on it.","options":["schoolbag","sofa","chair","photo"],"answer":1,"answerText":"B"},
+  {"id":"e4","subject":"英语","level":"easy","type":"choice","stem":"Farmer John 的西红柿是什么颜色？","options":["Yellow","Green","Red","Brown"],"answer":2,"answerText":"C"},
+  {"id":"e5","subject":"英语","level":"easy","type":"choice","stem":"Farmer Alice 的农场在哪里？","options":["Near a river","In a city","On a mountain","In a forest"],"answer":0,"answerText":"A"},
+  {"id":"e6","subject":"英语","level":"mid","type":"fill","stem":"拼写填空：Every morning, my classmates and I greet e____ other with big smiles.","accept":["each"],"answerText":"each"},
+  {"id":"e7","subject":"英语","level":"easy","type":"fill","stem":"拼写填空：Listen! That's the b____. Let's go to class.","accept":["bell"],"answerText":"bell"},
+
+  {"id":"g1","subject":"地理","level":"easy","type":"short","stem":"写出你家年夜饭中的一种美食，并填写其核心食材来源地（省/市/自治区）。","accept":["省","市","自治区"],"answerText":"开放题：示例“清蒸鱼，食材来自福建省宁德市”。","explain":"此题为开放题，重点是“美食-食材-来源地”对应关系。"},
+  {"id":"g2","subject":"地理","level":"mid","type":"short","stem":"从“气候/地形/水源”中任选两项，说明某食材为什么适合在其来源地生长。","accept":["气候","地形","水源"],"answerText":"开放题：言之有理即可。","explain":"可从温度、降水、海拔、土壤、水网等角度说明。"},
+  {"id":"g3","subject":"地理","level":"mid","type":"short","stem":"简述“地理环境与饮食偏好”的关系（至少1句）。","accept":["气候","饮食","地理"],"answerText":"开放题：示例“寒冷地区偏高热量饮食，沿海地区海鲜比例更高”。"}
+]
