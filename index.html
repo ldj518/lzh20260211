@@ -9,23 +9,16 @@
 <body>
   <header class="topbar">
     <h1>路*昊同学 · 20/30天学习计划系统</h1>
-    <p>自动生成计划｜每日打卡｜拍照提交｜家长查看｜科目计时</p>
+    <p>自动生成计划｜每日追踪｜拍照提交｜家长查看｜科目计时统计</p>
   </header>
 
   <main class="container">
     <section class="panel grid2">
       <label>计划周期
-        <select id="planDays">
-          <option value="20">20天</option>
-          <option value="30" selected>30天</option>
-        </select>
+        <select id="planDays"><option value="20">20天</option><option value="30" selected>30天</option></select>
       </label>
       <label>每日任务上限
-        <select id="dailyCap">
-          <option value="3">3项</option>
-          <option value="4" selected>4项</option>
-          <option value="5">5项</option>
-        </select>
+        <select id="dailyCap"><option value="3">3项</option><option value="4" selected>4项</option><option value="5">5项</option></select>
       </label>
       <button id="generateBtn">生成学习计划</button>
       <button id="resetBtn" class="ghost">清空计划</button>
@@ -34,11 +27,12 @@
     <section class="panel">
       <h2>今日任务（Day <span id="dayIndex">1</span>）</h2>
       <div class="today-controls">
-        <label>切换天数
-          <input id="dayPicker" type="number" min="1" value="1" />
-        </label>
-        <button id="startTimerBtn">开始科目计时</button>
-        <button id="stopTimerBtn" class="ghost">停止计时</button>
+        <label>切换天数 <input id="dayPicker" type="number" min="1" value="1" /></label>
+        <label>计时科目 <select id="timerSubject"></select></label>
+        <button id="startTimerBtn">开始</button>
+        <button id="pauseTimerBtn" class="ghost">暂停</button>
+        <button id="resumeTimerBtn" class="ghost">继续</button>
+        <button id="stopTimerBtn" class="ghost">结束</button>
         <span id="timerLine">未开始</span>
       </div>
       <ul id="todayList"></ul>
@@ -47,6 +41,7 @@
     <section class="panel">
       <h2>拍照提交（家长可查看）</h2>
       <input id="photoInput" type="file" accept="image/*" capture="environment" />
+      <small>限制：jpg/png/webp，≤5MB。失败自动重试1次。</small>
       <textarea id="photoNote" rows="2" placeholder="备注：今天完成了哪些内容"></textarea>
       <button id="savePhotoBtn">保存打卡</button>
       <div id="photoWall" class="photo-wall"></div>
@@ -56,6 +51,7 @@
       <h2>家长端统计</h2>
       <p id="summary">暂无数据</p>
       <ul id="progressBySubject"></ul>
+      <ul id="timeBySubject"></ul>
     </section>
   </main>
 
