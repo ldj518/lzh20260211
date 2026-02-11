@@ -1,0 +1,24 @@
+{
+  "name": "lzh20260211",
+  "version": "1.0.0",
+  "description": "部署地址： - Pages 临时域名：`https://lzh20260211.pages.dev` - 自定义域名：`*.5208090.xyz`（在 Cloudflare Pages 项目中绑定）",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ldj518/lzh20260211.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ldj518/lzh20260211/issues"
+  },
+  "homepage": "https://github.com/ldj518/lzh20260211#readme",
+  "dependencies": {
+    "playwright": "^1.58.2"
+  }
+}
